@@ -6,6 +6,26 @@ client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 st.set_page_config(page_title="Zee AI - Your Smart Assistant", page_icon="🔬")
 
+# Hide Streamlit Menu, Footer and Header
+hide_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_style, unsafe_allow_html=True)
+
+# Round Picture Style
+st.sidebar.markdown("""
+    <style>
+    [data-testid="stSidebar"] img {
+        border-radius: 50%;
+        border: 3px solid #ffffff;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Your Profile Section
 st.sidebar.image("https://avatars.githubusercontent.com/zee5969", width=100)
 st.sidebar.title("Zeeshan Ali")
