@@ -4,7 +4,7 @@ import os
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-st.set_page_config(page_title="Zee AI - Your Smart Assistant", page_icon="🔬")
+st.set_page_config(page_title="Zee AI", page_icon="🔬")
 
 # Hide Streamlit Menu Footer and Header
 hide_style = """
@@ -12,18 +12,6 @@ hide_style = """
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    
-    /* Style the + button */
-    .stButton button {
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        font-size: 25px;
-        background-color: #0083B8;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
     </style>
 """
 st.markdown(hide_style, unsafe_allow_html=True)
@@ -55,47 +43,24 @@ st.write("Ask me anything!")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-if "show_options" not in st.session_state:
-    st.session_state.show_options = False
-
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
-# + Button Row
-col1, col2 = st.columns([0.05, 0.95])
+# Simple Upload Button
+uploaded_file = st.file_uploader(
+    "📎 Upload a file",
+    type=["txt", "pdf", "png", "jpg", "jpeg"]
+)
 
-with col1:
-    if st.button("➕"):
-        st.session_state.show_options = not st.session_state.show_options
+# Show uploaded file
+if uploaded_file is not None:
+    st.success(f"✅ File uploaded: {uploaded_file.name}")
+    if uploaded_file.type.startswith("image"):
+        st.image(uploaded_file, width=300)
 
-with col2:
-    user_input = st.chat_input("Type your message here...")
-
-# Show Upload or Camera when + clicked
-if st.session_state.show_options:
-    st.markdown("### Choose an option:")
-    option_col1, option_col2 = st.columns(2)
-
-    with option_col1:
-        uploaded_file = st.file_uploader(
-            "📎 Upload File",
-            type=["txt", "pdf", "png", "jpg", "jpeg"]
-        )
-
-    with option_col2:
-        camera_photo = st.camera_input("📷 Take Photo")
-
-    # Show uploaded file
-    if uploaded_file is not None:
-        st.success(f"✅ File: {uploaded_file.name}")
-        if uploaded_file.type.startswith("image"):
-            st.image(uploaded_file, width=300)
-
-    # Show camera photo
-    if camera_photo is not None:
-        st.success("✅ Photo taken!")
-        st.image(camera_photo, width=300)
+# Chat Input
+user_input = st.chat_input("Type your message here...")
 
 if user_input:
     with st.chat_message("user"):
