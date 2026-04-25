@@ -7,7 +7,7 @@ client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 st.set_page_config(page_title="Welcome to Zee Chatbot", page_icon="🤖")
 
 # Your Profile Section
-st.sidebar.image("https://avatars.githubusercontent.com/zee-chatbot-1", width=150)
+st.sidebar.image("https://avatars.githubusercontent.com/zee5969", width=150)
 st.sidebar.title("Zeeshan Ali")
 st.sidebar.write("🏥 Medical Lab Technology Student")
 st.sidebar.write("🎓 Riphah International University")
