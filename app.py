@@ -12,6 +12,18 @@ hide_style = """
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* Style the + button */
+    .stButton button {
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 25px;
+        background-color: #0083B8;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
     </style>
 """
 st.markdown(hide_style, unsafe_allow_html=True)
@@ -43,45 +55,47 @@ st.write("Ask me anything!")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "show_options" not in st.session_state:
+    st.session_state.show_options = False
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
-# Upload and Camera ABOVE chat input
-col1, col2 = st.columns([1, 1])
+# + Button Row
+col1, col2 = st.columns([0.05, 0.95])
 
 with col1:
-    uploaded_file = st.file_uploader(
-        "📎 Upload File",
-        type=["txt", "pdf", "png", "jpg", "jpeg"],
-        label_visibility="collapsed"
-    )
+    if st.button("➕"):
+        st.session_state.show_options = not st.session_state.show_options
 
 with col2:
-    camera_photo = st.camera_input(
-        "📷 Camera",
-        label_visibility="collapsed"
-    )
+    user_input = st.chat_input("Type your message here...")
 
-# Show uploaded file
-if uploaded_file is not None:
-    st.success(f"✅ File uploaded: {uploaded_file.name}")
-    if uploaded_file.type.startswith("image"):
-        st.image(uploaded_file, width=300)
-    # Tell AI about file
-    file_message = f"User uploaded a file named: {uploaded_file.name}"
-    st.session_state.messages.append({
-        "role": "user",
-        "content": file_message
-    })
+# Show Upload or Camera when + clicked
+if st.session_state.show_options:
+    st.markdown("### Choose an option:")
+    option_col1, option_col2 = st.columns(2)
 
-# Show camera photo
-if camera_photo is not None:
-    st.success("✅ Photo taken!")
-    st.image(camera_photo, width=300)
+    with option_col1:
+        uploaded_file = st.file_uploader(
+            "📎 Upload File",
+            type=["txt", "pdf", "png", "jpg", "jpeg"]
+        )
 
-# Chat Input at Bottom
-user_input = st.chat_input("Type your message here...")
+    with option_col2:
+        camera_photo = st.camera_input("📷 Take Photo")
+
+    # Show uploaded file
+    if uploaded_file is not None:
+        st.success(f"✅ File: {uploaded_file.name}")
+        if uploaded_file.type.startswith("image"):
+            st.image(uploaded_file, width=300)
+
+    # Show camera photo
+    if camera_photo is not None:
+        st.success("✅ Photo taken!")
+        st.image(camera_photo, width=300)
 
 if user_input:
     with st.chat_message("user"):
