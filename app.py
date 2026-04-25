@@ -34,7 +34,20 @@ st.sidebar.write("🎓 Riphah International University")
 st.sidebar.write("📍 Islamabad, Pakistan")
 st.sidebar.write("🤖 AI Chatbot Developer")
 st.sidebar.markdown("---")
-st.sidebar.write("💬 Ask me anything!")
+
+# Upload Button FIXED in Sidebar!
+st.sidebar.write("📎 Upload File")
+uploaded_file = st.sidebar.file_uploader(
+    "Choose a file",
+    type=["txt", "pdf", "png", "jpg", "jpeg"],
+    label_visibility="collapsed"
+)
+
+# Show uploaded file in sidebar
+if uploaded_file is not None:
+    st.sidebar.success(f"✅ {uploaded_file.name}")
+    if uploaded_file.type.startswith("image"):
+        st.sidebar.image(uploaded_file, width=150)
 
 # Chatbot Section
 st.title("🔬 MedGenius")
@@ -43,23 +56,12 @@ st.write("Ask me anything!")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Show chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
-# Simple Upload Button
-uploaded_file = st.file_uploader(
-    "📎 Upload a file",
-    type=["txt", "pdf", "png", "jpg", "jpeg"]
-)
-
-# Show uploaded file
-if uploaded_file is not None:
-    st.success(f"✅ File uploaded: {uploaded_file.name}")
-    if uploaded_file.type.startswith("image"):
-        st.image(uploaded_file, width=300)
-
-# Chat Input
+# Chat Input at Bottom
 user_input = st.chat_input("Type your message here...")
 
 if user_input:
