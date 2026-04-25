@@ -4,10 +4,10 @@ import os
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-st.set_page_config(page_title="Welcome to Zee Chatbot", page_icon="🤖")
+st.set_page_config(page_title="Zee AI - Your Smart Assistant", page_icon="🔬")
 
 # Your Profile Section
-st.sidebar.image("https://avatars.githubusercontent.com/zee5969", width=150)
+st.sidebar.image("https://avatars.githubusercontent.com/zee5969", width=100)
 st.sidebar.title("Zeeshan Ali")
 st.sidebar.write("🏥 Medical Lab Technology Student")
 st.sidebar.write("🎓 Riphah International University")
@@ -15,7 +15,7 @@ st.sidebar.write("📍 Islamabad, Pakistan")
 st.sidebar.write("🤖 AI Chatbot Developer")
 
 # Chatbot Section
-st.title("🤖 Zeeshan's Chatbot")
+st.title("🔬 MedGenius")
 st.write("Ask me anything!")
 
 if "messages" not in st.session_state:
