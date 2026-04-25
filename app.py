@@ -35,11 +35,10 @@ st.sidebar.write("📍 Islamabad, Pakistan")
 st.sidebar.write("🤖 AI Chatbot Developer")
 st.sidebar.markdown("---")
 st.sidebar.write("💬 Ask me anything!")
-st.sidebar.write("📚 I am here to help!")
 
 # Chatbot Section
 st.title("🔬 MedGenius")
-st.write("Ask me anything! I am here to help!")
+st.write("Ask me anything!")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -48,6 +47,40 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
+# Upload and Camera ABOVE chat input
+col1, col2 = st.columns([1, 1])
+
+with col1:
+    uploaded_file = st.file_uploader(
+        "📎 Upload File",
+        type=["txt", "pdf", "png", "jpg", "jpeg"],
+        label_visibility="collapsed"
+    )
+
+with col2:
+    camera_photo = st.camera_input(
+        "📷 Camera",
+        label_visibility="collapsed"
+    )
+
+# Show uploaded file
+if uploaded_file is not None:
+    st.success(f"✅ File uploaded: {uploaded_file.name}")
+    if uploaded_file.type.startswith("image"):
+        st.image(uploaded_file, width=300)
+    # Tell AI about file
+    file_message = f"User uploaded a file named: {uploaded_file.name}"
+    st.session_state.messages.append({
+        "role": "user",
+        "content": file_message
+    })
+
+# Show camera photo
+if camera_photo is not None:
+    st.success("✅ Photo taken!")
+    st.image(camera_photo, width=300)
+
+# Chat Input at Bottom
 user_input = st.chat_input("Type your message here...")
 
 if user_input:
