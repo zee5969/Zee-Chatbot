@@ -6,7 +6,7 @@ client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 st.set_page_config(page_title="Zee AI - Your Smart Assistant", page_icon="🔬")
 
-# Hide Streamlit Menu, Footer and Header
+# Hide Streamlit Menu Footer and Header
 hide_style = """
     <style>
     #MainMenu {visibility: hidden;}
@@ -33,10 +33,13 @@ st.sidebar.write("🏥 Medical Lab Technology Student")
 st.sidebar.write("🎓 Riphah International University")
 st.sidebar.write("📍 Islamabad, Pakistan")
 st.sidebar.write("🤖 AI Chatbot Developer")
+st.sidebar.markdown("---")
+st.sidebar.write("💬 Ask me anything!")
+st.sidebar.write("📚 I am here to help!")
 
 # Chatbot Section
 st.title("🔬 MedGenius")
-st.write("Ask me anything!")
+st.write("Ask me anything! I am here to help!")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
